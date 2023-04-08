@@ -41,8 +41,8 @@ namespace AvaiabilityReportApi.Contracts
         public double @long { get; set; }
         public string name { get; set; }
         public long reported_at { get; set; }
-        public int rssi { get; set; }
-        public int snr { get; set; }
+        public double rssi { get; set; }
+        public double snr { get; set; }
         public string spreading { get; set; }
         public string status { get; set; }
     }
@@ -54,8 +54,8 @@ namespace AvaiabilityReportApi.Contracts
         public int multi_buy { get; set; }
         public string organization_id { get; set; }
         public List<object> preferred_hotspots { get; set; }
-        public int rx_delay { get; set; }
-        public int rx_delay_actual { get; set; }
+        public double rx_delay { get; set; }
+        public double rx_delay_actual { get; set; }
         public string rx_delay_state { get; set; }
     }
 

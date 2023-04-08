@@ -20,6 +20,7 @@ namespace AvaiabilityReportApi.Repositories
         {
 
             var lastAvaiabilityReport = await  (from report in this.gymAvaiabilityDbContext.AvaiabilityReports where report.Machine == avaiabilityReportDto.Machine 
+                                                orderby report.Timestamp descending
                                                 select new AvaiabilityReport
                                                 {
                                                     Machine = report.Machine,
@@ -27,7 +28,7 @@ namespace AvaiabilityReportApi.Repositories
                                                     CurrentState= report.CurrentState,
                                                     PreviousState= report.PreviousState,
                                                     Timestamp= report.Timestamp,
-                                                }).FirstOrDefaultAsync();
+                                                } ).FirstOrDefaultAsync();
 
             var newReport = new AvaiabilityReport
             {
