@@ -3,6 +3,8 @@ using AvaiabilityReportApi.Repositories;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Azure.Identity;
+using Hangfire;
+using Hangfire.SqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +23,22 @@ conStrBuilder.Password = builder.Configuration["MainDatabasePassword"];
 var connectionString = conStrBuilder.ConnectionString;
 builder.Services.AddDbContext<GymAvaiabilityDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddHangfire(configuration => configuration
+       .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+       .UseSimpleAssemblyNameTypeSerializer()
+       .UseRecommendedSerializerSettings()
+       .UseSqlServerStorage(connectionString, new SqlServerStorageOptions
+       {
+           CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+           SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+           QueuePollInterval = TimeSpan.Zero,
+           UseRecommendedIsolationLevel = true,
+           DisableGlobalLocks = true
+       }));
 builder.Services.AddScoped<IAvaiabilityReportRepository, AvaiabilityReportRepository>();
+builder.Services.AddHangfireServer();
+
 
 var app = builder.Build();
 
@@ -33,9 +50,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseHangfireDashboard();
 app.UseAuthorization();
-
+RecurringJob.AddOrUpdate<IAvaiabilityReportRepository>("Load-AvaiabilityReportFactSt Table" , x => x.LoadAvaiabilityFactSt(), "30 23 * * *");
+BackgroundJob.Enqueue<IAvaiabilityReportRepository>(x => x.LoadAvaiabilityFactSt());
 app.MapControllers();
 
 app.Run();

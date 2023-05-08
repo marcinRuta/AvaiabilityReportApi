@@ -45,11 +45,6 @@ namespace AvaiabilityReportApi.Controllers
             }
 
         }
-
-        private TimestampAttribute GetTimestamp(DateTime now)
-        {
-            throw new NotImplementedException();
-        }
     }
 
    

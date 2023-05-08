@@ -8,5 +8,6 @@ namespace AvaiabilityReportApi.Repositories
 
         Task<Machine> GetMachine(string deviceEUI);
         Task<AvaiabilityReport> AddAvaiabilityReport(AvaiabilityReportDto avaiabilityReportDto);
+        Task<List<AvaiabilityReportFactSt>> LoadAvaiabilityFactSt();
     }
 }

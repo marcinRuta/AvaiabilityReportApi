@@ -19,5 +19,8 @@ namespace AvaiabilityReportApi.Data
 
         public DbSet<Machine> Machines { get; set; }
         public DbSet<AvaiabilityReport> AvaiabilityReports { get; set; }
+        public DbSet<MachinePlacement> MachinePlacements { get; set;}
+        public DbSet <AvaiabilityReportFactSt> AvaiabilityReportFactSt { get; set; }
+
     }
 }
