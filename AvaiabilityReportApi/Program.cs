@@ -53,7 +53,7 @@ app.UseHttpsRedirection();
 app.UseHangfireDashboard();
 app.UseAuthorization();
 RecurringJob.AddOrUpdate<IAvaiabilityReportRepository>("Load-AvaiabilityReportFactSt Table" , x => x.LoadAvaiabilityFactSt(), "30 23 * * *");
-BackgroundJob.Enqueue<IAvaiabilityReportRepository>(x => x.LoadAvaiabilityFactSt());
+
 app.MapControllers();
 
 app.Run();
