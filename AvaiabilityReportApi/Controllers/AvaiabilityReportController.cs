@@ -45,6 +45,24 @@ namespace AvaiabilityReportApi.Controllers
             }
 
         }
+        [HttpGet]
+        public async Task<ActionResult> GetStatus()
+        {
+            try
+            {
+                var result = await this.AvaiabilityReportRepository.LoadAvaiabilityFactSt();
+                if (result == null)
+                {
+                    return NoContent();
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
     }
 
    
